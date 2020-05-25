@@ -4,7 +4,10 @@ jsoupを使った水門水質データベースの自動観測装置スクレイ
 
 # 使い方
 クローンし、```build.gradle```を実行。<br>
-Main.java内の自動観測装置の地点IDと取得したい期間の始まりと終わり（yyyMMdd形式）を設定してMain.javaを実行。
+Main.javaの29行目の自動観測装置の地点IDと取得したい期間の始まりと終わり（yyyMMdd形式）を設定してMain.javaを実行。
+```java
+TargetLocation targetLocation = new TargetLocation("地点ID","期間開始日付","期間終了日付");
+```
 
 取得したデータは```jsoup-project/src/main/resorces```下に```result.csv```で保存されます。
 
