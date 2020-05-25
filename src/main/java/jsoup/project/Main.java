@@ -16,14 +16,21 @@ public class Main {
 
 	public static void main(String[] args){
 
-		try{
+		//出力用ファイル名設定
+		String dir = "src/main/resources/";
+		String filename = dir + "result.csv";
+		File file = new File(filename);
+
+		//リソース自動開放設定
+		try(FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);){
 
 			//水文水質データベースの地点番号と開始日付、完了日付を設定
 			TargetLocation targetLocation = new TargetLocation("405081285511070","20200101","20200521");
 			//
 			List<Map<String,String>>listPeriod = targetLocation.getListPeriod();
 
-			//結果格納用のList（ネストされている）用意
+			//結果格納用のList（ネスト）用意
 			List<List<String>>tableList = new ArrayList<>();
 			System.out.println(listPeriod);
 			Boolean isFirstTime = true;
@@ -52,21 +59,16 @@ public class Main {
 
 			}
 
-			//出力用ファイル設定
-		    String dir = "src/main/resources/";
-		    String filename = dir + "result.csv";
-	        File file = new File(filename);
-	        FileWriter fw = new FileWriter(file);
-	        BufferedWriter bw = new BufferedWriter(fw);
-
-	        //スクレイピングしたリストをカンマで結合した文字列へ変換・書き込み。
+			//スクレイピングしたリストをカンマで結合した文字列へ変換・書き込み。
 			for(List<String>row:tableList) {
 				bw.write(row.stream()
 						.collect(Collectors.joining(",")));
 				bw.newLine();
 			}
-			bw.flush();
-			bw.close();
+
+			//ファイルを閉じる。
+//			bw.flush();
+//			bw.close();
 
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -76,6 +78,4 @@ public class Main {
 		}
 	}
 	}
-
-
 
